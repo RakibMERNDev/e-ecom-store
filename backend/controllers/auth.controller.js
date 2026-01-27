@@ -118,3 +118,42 @@ export const logout = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+// refresh token
+
+export const refreshToken = async (req, res) => {
+  try {
+    const refreshToken = req.cookies.refreshToken;
+
+    if (!refreshToken) {
+      return res
+        .status(401)
+        .json({ message: "Refresh token not found. Unauthorized" });
+    }
+
+    const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+    const storedToken = await redis.get(`refresh_token:${decoded.userId}`); // get refresh token from redis
+    if (storedToken !== refreshToken) {
+      return res.status(401).json({ message: "Invalid refresh token" });
+    }
+
+    const accessToken = jwt.sign(
+      { userId: decoded.userId },
+      process.env.ACCESS_TOKEN_SECRET,
+      {
+        expiresIn: "15m",
+      },
+    );
+
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true, // prevent XSS attacks
+      secure: process.env.NODE_ENV === "production", // only send cookie over HTTPS
+      sameSite: "strict", // prevent CSRF attacks
+      maxAge: 15 * 60 * 1000, // 15 minutes
+    });
+
+    res.json({ message: "Token refreshed successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
