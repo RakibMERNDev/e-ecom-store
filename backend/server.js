@@ -1,14 +1,18 @@
+import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import express from "express";
 
-import authRoutes from "./routes/auth.route.js";
 import { connectDb } from "./lib/db.js";
+import authRoutes from "./routes/auth.route.js";
 
 dotenv.config();
 
 const app = express();
 
 app.use(express.json());
+
+app.use(cookieParser())
+
 
 const PORT = process.env.PORT || 5000;
 
