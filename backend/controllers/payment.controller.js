@@ -77,6 +77,55 @@ export const createCheckoutSession = async (req, res) => {
   }
 };
 
+export const checkOutSuccess = async (req, res) => {
+  try {
+    const { sessionId } = req.body;
+    const session = await stripe.checkout.sessions.retrieve(sessionId);
+
+    if (session.payment_status === "paid") {
+      if (session.metadata.couponCode) {
+        await Coupon.findOneAndUpdate(
+          {
+            code: session.metadata.couponCode,
+            userId: session.metadata.userId,
+          },
+          {
+            isActive: false,
+          },
+        );
+      }
+
+      // create a new Order
+
+      const products = JSON.parse(session.metadata.products);
+
+      const newOrder = new Order({
+        user: session.metadata.userId,
+        products: products.map((product) => ({
+          product: product.id,
+          quantity: product.quantity,
+          price: product.price,
+        })),
+        totalAmount: session.amount_total / 100, //convert from cents to dollar
+        stripeSessionId: sessionId,
+      });
+    }
+
+    await newOrder.save();
+
+    res.json({
+      message:
+        "Payment Successful, order created, and coupon deactivated if used",
+    });
+  } catch (error) {
+    console.log("Error in checkout success controller", error.message);
+    res.status(500).json({
+      message: "Error processing successful checkout",
+      error: error.message,
+    });
+  }
+};
+
 async function crateStripeCoupon(discountPercentage) {
   const coupon = await stripe.coupons.create({
     percent_off: discountPercentage,
