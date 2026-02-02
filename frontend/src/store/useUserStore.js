@@ -23,6 +23,8 @@ export const useUserStore = create((set, get) => ({
         password,
       });
       set({ user: res.data.user, loading: false });
+
+      return toast.success("User created successfully");
     } catch (error) {
       set({ loading: false });
       return toast.error(
