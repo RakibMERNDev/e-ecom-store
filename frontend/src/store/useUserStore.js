@@ -6,7 +6,7 @@ import { toast } from "react-hot-toast";
 export const useUserStore = create((set, get) => ({
   user: null,
   loading: false,
-  checkingAuth: false,
+  checkingAuth: true,
 
   signup: async ({ name, email, password, confirmPassword }) => {
     set({ loading: true });
@@ -65,7 +65,6 @@ export const useUserStore = create((set, get) => ({
     try {
       const response = await axiosInstance.get("/auth/profile");
       set({ user: response.data.user, checkingAuth: false });
-      console.log(response)
     } catch (error) {
       console.log(error.message);
       set({ checkingAuth: false, user: null });
