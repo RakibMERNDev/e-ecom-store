@@ -16,6 +16,7 @@ export const useProductStore = create((set, get) => ({
         products: [...prevState.products, res.data.product],
         loading: false,
       }));
+      toast.success("Product created successfully");
     } catch (error) {
       set({ loading: false });
       toast.error(error.response.data.message || "An Error Occurred, Try later");
