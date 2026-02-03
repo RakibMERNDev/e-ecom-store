@@ -25,7 +25,7 @@ const AdminPage = () => {
           Admin Dashboard
         </Motion.h1>
 
-        <div className="flex  justify-center mb-8">
+        <div className="flex justify-center mb-8">
           {tabs.map((tab) => (
             <button
               key={tab.id}
@@ -40,11 +40,10 @@ const AdminPage = () => {
               {tab.label}
             </button>
           ))}
-
-          {activeTab === "create" && <CreateProductForm />}
-          {activeTab === "products" && <ProductsList />}
-          {activeTab === "analytics" && <AnalyticsTab />}
         </div>
+        {activeTab === "create" && <CreateProductForm />}
+        {activeTab === "products" && <ProductsList />}
+        {activeTab === "analytics" && <AnalyticsTab />}
       </div>
     </div>
   );
