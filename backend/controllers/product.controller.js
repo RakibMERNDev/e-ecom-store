@@ -141,7 +141,7 @@ export const toggleFeaturedProduct = async (req, res) => {
       // update cache on redis
       await updateFeaturedProductCache(updatedProduct);
 
-      res.json({ product: updatedProduct });
+      res.json({ product: updatedProduct , message: "Featured status toggled successfully"});
     } else {
       res.status(404).json({ message: "Product not found" });
     }

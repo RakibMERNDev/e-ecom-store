@@ -28,7 +28,7 @@ export const useProductStore = create((set, get) => ({
 
     try {
       const response = await axiosInstance.get("/products");
-     
+
       set({ products: response.data.products, loading: false });
     } catch (error) {
       toast.error(error.response.data.error || "Failed to fetch products");
@@ -51,5 +51,27 @@ export const useProductStore = create((set, get) => ({
       toast.error(error.response.data.error || "Error deleting product");
     }
   },
-  toggleFeaturedProduct: async (id) => {},
+  toggleFeaturedProduct: async (productId) => {
+    set({ loading: true });
+
+    try {
+      const response = await axiosInstance.patch(`/products/${productId}`);
+
+      set((prevState) => ({
+        products: prevState.products.map((product) => {
+          if (product._id === productId) {
+            return { ...product, isFeatured: !product.isFeatured };
+          }
+          return product;
+        }),
+        loading: false,
+      }));
+      toast.success(response.data.message);
+    } catch (error) {
+      set({ loading: false });
+      toast.error(
+        error.response.data.error || "Error changing featured status",
+      );
+    }
+  },
 }));
