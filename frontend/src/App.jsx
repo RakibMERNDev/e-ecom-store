@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 import { useUserStore } from "./store/useUserStore";
 import { useEffect } from "react";
 import LoadingSpinner from "./components/LoadingSpinner";
+import AdminPage from "./pages/AdminPage";
 
 const App = () => {
   
@@ -40,6 +41,10 @@ const App = () => {
           <Route
             path="/login"
             element={!user ? <LogInPage /> : <Navigate to={"/"} />}
+          />
+          <Route
+            path="/secret-dashboard"
+            element={user?.role === "admin" ? <AdminPage /> : <Navigate to={"/login"} />}
           />
         </Routes>
       </div>
