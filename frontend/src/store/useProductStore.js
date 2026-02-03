@@ -19,7 +19,37 @@ export const useProductStore = create((set, get) => ({
       toast.success("Product created successfully");
     } catch (error) {
       set({ loading: false });
-      toast.error(error.response.data.message || "An Error Occurred, Try later");
+      toast.error(error.response.data.error || "An Error Occurred, Try later");
     }
   },
+
+  fetchAllProducts: async () => {
+    set({ loading: true });
+
+    try {
+      const response = await axiosInstance.get("/products");
+     
+      set({ products: response.data.products, loading: false });
+    } catch (error) {
+      toast.error(error.response.data.error || "Failed to fetch products");
+      set({ error: "Failed to fetch products", loading: false });
+    }
+  },
+
+  deleteProduct: async (id) => {
+    set({ loading: true });
+    try {
+      const response = await axiosInstance.delete(`/products/${id}`);
+
+      set((prevState) => ({
+        products: prevState.products.filter((product) => product._id !== id),
+        loading: false,
+      }));
+      toast.success(response.data.message);
+    } catch (error) {
+      set({ loading: false });
+      toast.error(error.response.data.error || "Error deleting product");
+    }
+  },
+  toggleFeaturedProduct: async (id) => {},
 }));
