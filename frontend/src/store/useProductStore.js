@@ -36,13 +36,13 @@ export const useProductStore = create((set, get) => ({
     }
   },
 
-  deleteProduct: async (id) => {
+  deleteProduct: async (productId) => {
     set({ loading: true });
     try {
-      const response = await axiosInstance.delete(`/products/${id}`);
+      const response = await axiosInstance.delete(`/products/${productId}`);
 
       set((prevState) => ({
-        products: prevState.products.filter((product) => product._id !== id),
+        products: prevState.products.filter((product) => product._id !== productId),
         loading: false,
       }));
       toast.success(response.data.message);
