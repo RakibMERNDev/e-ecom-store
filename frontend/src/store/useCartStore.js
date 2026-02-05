@@ -12,7 +12,8 @@ export const useCartStore = create((set, get) => ({
   getCartItems: async () => {
     try {
       const response = await axiosInstance.get("/cart");
-      set({ cart: response.data.cart });
+      console.log(response.data);
+      set({ cart: response.data });
       get().calculateTotals();
     } catch (error) {
       set({ cart: [] });
@@ -22,7 +23,9 @@ export const useCartStore = create((set, get) => ({
 
   addToCart: async (product) => {
     try {
-      await axiosInstance.post("/cart", { productId: product._id });
+      await axiosInstance.post("/cart", {
+        productId: product._id,
+      });
       toast.success("Product added to cart successfully");
 
       set((prevState) => {
