@@ -1,6 +1,8 @@
 import { useCartStore } from "../store/useCartStore";
 import { motion as Motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import CartItem from "../components/CartItem";
+import PeopleAlsoBought from "../components/PeopleAlsoBought";
 
 const CartPage = () => {
   const { cart } = useCartStore();
@@ -18,12 +20,12 @@ const CartPage = () => {
               <EmptyCart />
             ) : (
               <div className="space-y-6">
-                {/* {cart.map((item) => (
+                {cart.map((item) => (
                   <CartItem key={item._id} item={item} />
-                ))} */}
+                ))}
               </div>
             )}
-            {/* {cart.length > 0 && <PeopleAlsoBought />} */}
+            {cart.length > 0 && <PeopleAlsoBought />}
           </Motion.div>
         </div>
       </div>
