@@ -3,12 +3,13 @@ import { motion as Motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import CartItem from "../components/CartItem";
 import PeopleAlsoBought from "../components/PeopleAlsoBought";
+import { ShoppingCart } from "lucide-react";
 
 const CartPage = () => {
   const { cart } = useCartStore();
   return (
     <div className="py-8 md:py-16">
-      <div className="mx-auto max-w-screen-7xl px-4 2xl:px-0">
+    <div className="mx-auto max-w-screen-7xl px-4 2xl:px-0">
         <div className="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
           <Motion.div
             className="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl"
@@ -42,7 +43,7 @@ const EmptyCart = () => (
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.5 }}
   >
-    {/* <ShoppingCart className="h-24 w-24 text-gray-300" /> */}
+    <ShoppingCart className="h-24 w-24 text-gray-300" />
     <h3 className="text-2xl font-semibold">Your cart is currently empty.</h3>
     <p className="text-gray-400">
       You haven't added any items to your cart yet. Please start shopping to add

@@ -16,7 +16,7 @@ export const useCartStore = create((set, get) => ({
       get().calculateTotals();
     } catch (error) {
       set({ cart: [] });
-      toast.error(error.response.data.error || "Failed to fetch cart items");
+      console.log(error)
     }
   },
 
@@ -61,5 +61,15 @@ export const useCartStore = create((set, get) => ({
     }
 
     set({ subtotal, total });
+  },
+
+  removeFromCart: async (productId) => {
+    await axiosInstance.delete(`/cart`, { data: { productId } });
+
+    set((prevState) => ({
+      cart: prevState.cart.filter((item) => item._id !== productId),
+    }));
+
+    get().calculateTotals();
   },
 }));
