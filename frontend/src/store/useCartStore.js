@@ -16,7 +16,7 @@ export const useCartStore = create((set, get) => ({
       get().calculateTotals();
     } catch (error) {
       set({ cart: [] });
-      console.log(error)
+      console.log(error);
     }
   },
 
@@ -68,6 +68,25 @@ export const useCartStore = create((set, get) => ({
 
     set((prevState) => ({
       cart: prevState.cart.filter((item) => item._id !== productId),
+    }));
+
+    get().calculateTotals();
+  },
+
+  updateQuantity: async (productId, quantity) => {
+    if (quantity === 0) {
+      get().removeFromCart(productId);
+      return;
+    }
+    await axiosInstance.put(`/cart/${productId}`, { quantity });
+
+    set((prevState) => ({
+      cart: prevState.cart.map((item) => {
+        if (item._id === productId) {
+          return { ...item, quantity };
+        }
+        return item;
+      }),
     }));
 
     get().calculateTotals();
