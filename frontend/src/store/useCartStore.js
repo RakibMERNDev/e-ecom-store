@@ -102,4 +102,18 @@ export const useCartStore = create((set, get) => ({
       isCouponApplied: false,
     });
   },
+
+  getMyCoupon: async () => {
+    try {
+      const response = await axiosInstance.get("/coupons");
+      set({ coupon: response.data });
+    } catch (error) {
+      console.error("Error fetching coupon:", error);
+    }
+  },
+
+
+
+
+  
 }));
