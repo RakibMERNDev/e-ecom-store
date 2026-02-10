@@ -10,6 +10,7 @@ import AdminPage from "./pages/AdminPage";
 import CategoryPage from "./pages/CategoryPage";
 import { useCartStore } from "./store/useCartStore";
 import CartPage from "./pages/CartPage";
+import PurchaseSuccessPage from "./pages/PurchaseSuccessPage";
 
 const App = () => {
   const { user, checkAuth, checkingAuth } = useUserStore();

@@ -72,7 +72,7 @@ export const createCheckoutSession = async (req, res) => {
       await createNewCoupon(req.user._id);
     }
 
-    res.status(200).json({ url : session.url, totalAmount: totalAmount / 100 });
+    res.status(200).json({ url: session.url, totalAmount: totalAmount / 100 });
   } catch (error) {
     console.log("Error in createCheckoutSession controller", error.message);
     res.status(500).json({ message: "Server error", error: error.message });
@@ -98,7 +98,6 @@ export const checkOutSuccess = async (req, res) => {
       }
 
       // create a new Order
-
       const products = JSON.parse(session.metadata.products);
 
       const newOrder = new Order({
@@ -111,9 +110,9 @@ export const checkOutSuccess = async (req, res) => {
         totalAmount: session.amount_total / 100, //convert from cents to dollar
         stripeSessionId: sessionId,
       });
-    }
 
-    await newOrder.save();
+      await newOrder.save();
+    }
 
     res.json({
       message:

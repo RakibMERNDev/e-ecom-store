@@ -1,4 +1,4 @@
-import { motion as Motion, propagateDirtyNodes } from "framer-motion";
+import { motion as Motion } from "framer-motion";
 
 import { Link } from "react-router-dom";
 import { MoveRight } from "lucide-react";
@@ -12,9 +12,9 @@ const OrderSummary = () => {
   const { total, subtotal, coupon, isCouponApplied, cart } = useCartStore();
 
   const handlePayment = async () => {
-    const stripe = await stripePromise;
+    await stripePromise;
 
-    const res = await axiosInstance.post("/payment/create-checkout-session", {
+    const res = await axiosInstance.post("/payments/create-checkout-session", {
       products: cart,
       couponCode: coupon ? coupon.code : null,
     });
