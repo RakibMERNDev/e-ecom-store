@@ -1,5 +1,5 @@
 import { XCircle, ArrowLeft } from "lucide-react";
-import { motion as Motion} from "framer-motion";
+import { motion as Motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
 const PurchaseCancelPage = () => {
