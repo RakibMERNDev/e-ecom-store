@@ -63,6 +63,10 @@ const App = () => {
             path="/cart"
             element={user ? <CartPage /> : <Navigate to={"/login"} />}
           />
+          <Route
+            path="/purchase-success"
+            element={user ? <PurchaseSuccessPage /> : <Navigate to={"/login"} />}
+          />
         </Routes>
       </div>
     </div>

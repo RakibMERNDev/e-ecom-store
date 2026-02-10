@@ -19,9 +19,7 @@ const OrderSummary = () => {
       couponCode: coupon ? coupon.code : null,
     });
 
-    const session = res.data;
-
-    console.log(session);
+    window.location.href = res.data.url;
   };
 
   const savings = subtotal - total;
