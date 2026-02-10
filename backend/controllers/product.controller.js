@@ -4,8 +4,8 @@ import Product from "../models/product.model.js";
 
 export const getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find({}); 
-   
+    const products = await Product.find({});
+
     res.json({ products });
   } catch (error) {
     console.log("Error in getting all products controller", error.message);
@@ -93,7 +93,7 @@ export const getRecommendedProducts = async (req, res) => {
   try {
     const products = await Product.aggregate([
       {
-        $sample: { size: 3 },
+        $sample: { size: 4 },
       },
       {
         $project: {
@@ -140,7 +140,10 @@ export const toggleFeaturedProduct = async (req, res) => {
       // update cache on redis
       await updateFeaturedProductCache(updatedProduct);
 
-      res.json({ product: updatedProduct , message: "Featured status toggled successfully"});
+      res.json({
+        product: updatedProduct,
+        message: "Featured status toggled successfully",
+      });
     } else {
       res.status(404).json({ message: "Product not found" });
     }
