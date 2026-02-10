@@ -137,6 +137,9 @@ async function crateStripeCoupon(discountPercentage) {
 }
 
 async function createNewCoupon(userId) {
+  await Coupon.findOneAndUpdate({
+    userId,
+  });
   const newCoupon = new Coupon({
     code: "GIFT" + Math.random().toString(36).substring(2, 8).toUpperCase(),
     discountPercentage: 10,
