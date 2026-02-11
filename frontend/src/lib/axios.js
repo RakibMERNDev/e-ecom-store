@@ -2,15 +2,11 @@ import axios from "axios";
 import { useUserStore } from "../store/useUserStore";
 
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "/api",
+  baseURL: import.meta.env.VITE_API_URL + "/api" || "/api",
   withCredentials: true,
 });
 
 export default axiosInstance;
-
-
-
-
 
 let refreshPromise = null;
 
@@ -43,5 +39,3 @@ axios.interceptors.response.use(
     return Promise.reject(error);
   },
 );
-
-
