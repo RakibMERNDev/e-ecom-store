@@ -35,7 +35,17 @@ app.use("/api/coupons", couponRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/analytics", analyticsRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-  connectDb();
-});
+const startServerAsync = async () => {
+  try {
+    await connectDb();
+
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error(`Failed to connect to database: ${error.message}`);
+    process.exit(1);
+  }
+};
+
+startServerAsync();
