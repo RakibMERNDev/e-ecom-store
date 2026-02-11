@@ -9,6 +9,8 @@ export const useCartStore = create((set, get) => ({
   total: 0,
   subtotal: 0,
   isCouponApplied: false,
+  featuredProducts: [],
+  loading: false,
 
   getCartItems: async () => {
     try {
@@ -130,4 +132,6 @@ export const useCartStore = create((set, get) => ({
     get().calculateTotals();
     toast.success("Coupon removed successfully");
   },
+
+  
 }));
